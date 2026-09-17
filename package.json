@@ -1,0 +1,17 @@
+{
+  "name": "vibe-coding-responsavel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site editorial sobre Vibe Coding responsável, engenharia de software e segurança.",
+  "type": "module",
+  "scripts": {
+    "build:chapters": "node scripts/build-chapters.mjs",
+    "build": "npm run build:chapters"
+  },
+  "dependencies": {
+    "marked": "^15.0.12"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
