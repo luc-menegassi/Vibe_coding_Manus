@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Projeto integrador do guia de Vibe Coding responsável."
+  >
+
+  <title>Projeto integrador — Vibe Coding responsável</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">VC</span>
+
+        <span class="brand-text">
+          <strong>Vibe Coding</strong>
+          <small>responsável</small>
+        </span>
+      </a>
+
+      <button
+        class="mobile-menu-button"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="main-navigation" data-menu>
+        <a href="index.html">Início</a>
+        <a href="guia.html">Trilha</a>
+        <a class="active" href="projeto-integrador.html">
+          Projeto integrador
+        </a>
+        <a href="checklists.html">Checklists</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <nav class="breadcrumb" aria-label="Navegação estrutural">
+          <a href="index.html">Início</a>
+          <span>/</span>
+          <span>Projeto integrador</span>
+        </nav>
+
+        <p class="eyebrow">APRENDER CONSTRUINDO</p>
+
+        <h1>Um sistema pequeno, seguro e explicável.</h1>
+
+        <p class="page-hero-description">
+          O projeto integrador atravessa os 11 capítulos: contexto, requisitos,
+          API, autorização, armazenamento, CI, publicação, observabilidade,
+          debug e segurança.
+        </p>
+
+        <div class="page-meta">
+          <span class="meta-tag">8 fases</span>
+          <span class="meta-tag">Dados sintéticos</span>
+          <span class="meta-tag">API + CI/CD</span>
+          <span class="meta-tag">Segurança aplicada</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="project-grid">
+      <div class="project-main">
+        <div class="callout">
+          <strong>Regra do projeto</strong>
+
+          <p>
+            Use um repositório descartável e dados sintéticos. Não utilize
+            tokens reais, dados de clientes, dumps de produção ou credenciais
+            verdadeiras.
+          </p>
+        </div>
+
+        <h2>O cenário</h2>
+
+        <p>
+          Construa um pequeno serviço interno para solicitações de clientes.
+          O sistema deve lidar com dados pessoais, anexos, uma integração
+          externa, auditoria e deploy automatizado.
+        </p>
+
+        <p>
+          O projeto também deve incluir o endpoint
+          <code>POST /v1/invitations</code> e uma funcionalidade de alteração
+          de endereço de entrega.
+        </p>
+
+        <div class="callout warning">
+          <strong>O que será avaliado</strong>
+
+          <p>
+            O objetivo não é produzir a maior quantidade de código. O objetivo
+            é demonstrar que outra pessoa consegue entender, reproduzir,
+            testar, revisar, operar e reverter o projeto.
+          </p>
+        </div>
+
+        <h2>Requisitos mínimos</h2>
+
+        <div class="phase-card-list">
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">REQ-01</span>
+
+            <div>
+              <h3>Convites autorizados</h3>
+              <p>
+                Apenas uma pessoa autenticada com papel
+                <code>owner</code> pode criar convite para um espaço.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">REQ-02</span>
+
+            <div>
+              <h3>Validação do e-mail</h3>
+              <p>
+                O e-mail deve ser normalizado, validado e protegido contra
+                entradas inválidas ou excessivamente grandes.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">REQ-03</span>
+
+            <div>
+              <h3>Idempotência</h3>
+              <p>
+                Um convite pendente repetido não deve criar uma nova gravação
+                sob retry ou concorrência.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">REQ-04</span>
+
+            <div>
+              <h3>Não revelar informações</h3>
+              <p>
+                Uma pessoa não autorizada não deve descobrir a existência de
+                um espaço por meio de mensagens de erro.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">REQ-05</span>
+
+            <div>
+              <h3>Alteração de endereço</h3>
+              <p>
+                A alteração de endereço deve validar os dados no servidor,
+                registrar auditoria e preservar a autorização.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">REQ-06</span>
+
+            <div>
+              <h3>Entrega rastreável</h3>
+              <p>
+                O artefato publicado deve ser rastreável ao commit, à tag e ao
+                workflow que realizou a construção.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <h2>Fases de execução</h2>
+
+        <div class="phase-card-list">
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">01</span>
+
+            <div>
+              <h3>Contexto e ambiente</h3>
+              <p>
+                Registre sistema operacional, shell, Git, runtime, arquitetura,
+                raiz, branch, commit e status do repositório. Faça o inventário
+                de código, testes, manifests, lockfile, workflows e configuração.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">02</span>
+
+            <div>
+              <h3>Especificação</h3>
+              <p>
+                Escreva requisitos funcionais, requisitos não funcionais,
+                não objetivos, contrato OpenAPI, critérios Given/When/Then e
+                matriz de limites.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">03</span>
+
+            <div>
+              <h3>Decisão tecnológica</h3>
+              <p>
+                Compare stacks plausíveis ou registre por que a tecnologia
+                escolhida atende ao cenário. Documente suporte, dependências,
+                operação, segurança e reversibilidade em um ADR.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">04</span>
+
+            <div>
+              <h3>Planejamento</h3>
+              <p>
+                Divida o trabalho em seis fatias verticais. Defina a ordem,
+                estimativas relativas, risco dominante, checkpoints e caminho
+                de rollback.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">05</span>
+
+            <div>
+              <h3>Implementação com a IA</h3>
+              <p>
+                Use a IA em três rodadas: perguntas e ambiguidades; plano;
+                patch mínimo com testes. Autorize apenas os arquivos
+                necessários e revise cada diff.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">06</span>
+
+            <div>
+              <h3>Organização e entrega</h3>
+              <p>
+                Inclua README, documentação, testes, scripts, manifesto,
+                lockfile, configuração de exemplo, Dockerfile e
+                <code>.dockerignore</code> quando aplicável.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">07</span>
+
+            <div>
+              <h3>CI e publicação</h3>
+              <p>
+                Configure lint, testes, build, scanners, permissões mínimas,
+                proteção de branch, release, artefato e deploy rastreável.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">08</span>
+
+            <div>
+              <h3>Segurança e debug</h3>
+              <p>
+                Modele ameaças, revise autorização, validação, queries, logs,
+                dependências, workflows e secrets. Depois introduza um defeito
+                controlado, investigue por camadas e adicione uma regressão.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <h2>Definição de pronto</h2>
+
+        <div class="callout success">
+          <strong>O projeto está pronto quando:</strong>
+
+          <ul>
+            <li>
+              Outra pessoa consegue clonar e configurar o projeto em ambiente
+              limpo.
+            </li>
+
+            <li>
+              Os requisitos e contratos correspondem aos testes executados.
+            </li>
+
+            <li>
+              A autorização é aplicada no servidor, não apenas no cliente.
+            </li>
+
+            <li>
+              Convites pendentes são idempotentes sob retry e concorrência.
+            </li>
+
+            <li>
+              Segredos não aparecem no prompt, no repositório, nos logs, nas
+              imagens, nos artefatos ou no histórico.
+            </li>
+
+            <li>
+              O CI possui permissões mínimas e não executa código não confiável
+              em contexto privilegiado.
+            </li>
+
+            <li>
+              O deploy é rastreável ao commit, à tag e ao workflow.
+            </li>
+
+            <li>
+              O relatório separa geração da IA, decisões humanas, verificações
+              automatizadas, revisão manual e pontos não verificados.
+            </li>
+          </ul>
+        </div>
+
+        <h2>Entregáveis finais</h2>
+
+        <ul>
+          <li>Repositório Git organizado;</li>
+          <li>README com instalação, testes, build, execução e limpeza;</li>
+          <li>Requisitos e contrato da API;</li>
+          <li>ADR com a decisão tecnológica;</li>
+          <li>Plano de implementação e diário de decisões;</li>
+          <li>Código, testes unitários e testes de integração;</li>
+          <li>Workflow de CI;</li>
+          <li>Workflow de publicação;</li>
+          <li>Relatório de threat modeling;</li>
+          <li>Relatório de debug e causa encontrada;</li>
+          <li>Release ou artefato rastreável;</li>
+          <li>Lista de riscos residuais e plano de rollback.</li>
+        </ul>
+
+        <a class="button button-primary" href="guia.html">
+          Voltar para a trilha
+        </a>
+      </div>
+
+      <aside class="project-sidebar">
+        <div class="project-sidebar-card">
+          <h3>Mapa rápido</h3>
+
+          <ul>
+            <li>Contexto</li>
+            <li>Especificação</li>
+            <li>Arquitetura</li>
+            <li>Planejamento</li>
+            <li>Implementação</li>
+            <li>Entrega</li>
+            <li>CI/CD</li>
+            <li>Segurança</li>
+            <li>Debug</li>
+          </ul>
+        </div>
+
+        <div class="project-sidebar-card">
+          <h3>Princípios</h3>
+
+          <ul>
+            <li>Dados sintéticos</li>
+            <li>Menor privilégio</li>
+            <li>Mudanças pequenas</li>
+            <li>Testes reproduzíveis</li>
+            <li>Revisão humana</li>
+            <li>Rollback conhecido</li>
+          </ul>
+        </div>
+
+        <div class="project-sidebar-card">
+          <h3>Capítulos relacionados</h3>
+
+          <ul>
+            <li>
+              <a href="capitulos/07-contexto-exploracao.html">
+                Contexto
+              </a>
+            </li>
+
+            <li>
+              <a href="capitulos/08-especificacao.html">
+                Especificação
+              </a>
+            </li>
+
+            <li>
+              <a href="capitulos/06-github-actions.html">
+                GitHub Actions
+              </a>
+            </li>
+
+            <li>
+              <a href="capitulos/11-seguranca-arquitetura.html">
+                Segurança
+              </a>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <a class="brand footer-brand" href="index.html">
+          <span class="brand-mark">VC</span>
+
+          <span class="brand-text">
+            <strong>Vibe Coding</strong>
+            <small>responsável</small>
+          </span>
+        </a>
+
+        <p>
+          Engenharia de software com inteligência artificial,
+          contexto e responsabilidade.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="guia.html">Trilha</a>
+        <a href="projeto-integrador.html">Projeto integrador</a>
+        <a href="checklists.html">Checklists</a>
+        <a href="sobre.html">Sobre</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>Conteúdo educacional sobre engenharia de software.</span>
+      <span>Vibe Coding responsável © 2026</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

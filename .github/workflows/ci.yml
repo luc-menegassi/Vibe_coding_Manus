@@ -1,0 +1,96 @@
+name: Validar site
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validar arquivos estáticos
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Verificar arquivos principais
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f index.html
+          test -f guia.html
+          test -f projeto-integrador.html
+          test -f checklists.html
+          test -f sobre.html
+          test -f assets/css/style.css
+          test -f assets/js/app.js
+
+          echo "Arquivos principais encontrados."
+
+      - name: Verificar capítulos
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          chapters=(
+            "01-ambiente-terminal.html"
+            "02-linguagem.html"
+            "03-entrega-organizacao.html"
+            "04-debug-camadas.html"
+            "05-calibrar-ia.html"
+            "06-github-actions.html"
+            "07-contexto-exploracao.html"
+            "08-especificacao.html"
+            "09-planejamento.html"
+            "10-implementacao-ia.html"
+            "11-seguranca-arquitetura.html"
+           )
+
+          for chapter in "${chapters[@]}"; do
+            test -f "capitulos/$chapter"
+          done
+
+          echo "Todos os capítulos foram encontrados."
+
+      - name: Verificar referências de assets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for file in *.html capitulos/*.html; do
+            grep -q 'assets/css/style.css' "$file"
+            grep -q 'assets/js/app.js' "$file"
+          done
+
+          echo "Referências de CSS e JavaScript encontradas."
+
+      - name: Verificar ausência de arquivos sensíveis
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if find . \
+            -type f \
+            \( \
+              -name ".env" \
+              -o -name "*.pem" \
+              -o -name "*.key" \
+              -o -name "*.p12" \
+              -o -name "*.secret" \
+            \) \
+            -not -path "./.git/*" \
+            | grep -q .; then
+            echo "Arquivo potencialmente sensível encontrado."
+            exit 1
+          fi
+
+          echo "Nenhum arquivo sensível conhecido foi encontrado."

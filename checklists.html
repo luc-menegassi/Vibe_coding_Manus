@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Checklists práticos para usar IA na programação com contexto, revisão, segurança e evidência."
+  >
+
+  <title>Checklists — Vibe Coding responsável</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">VC</span>
+
+        <span class="brand-text">
+          <strong>Vibe Coding</strong>
+          <small>responsável</small>
+        </span>
+      </a>
+
+      <button
+        class="mobile-menu-button"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="main-navigation" data-menu>
+        <a href="index.html">Início</a>
+        <a href="guia.html">Trilha</a>
+        <a href="projeto-integrador.html">Projeto integrador</a>
+        <a class="active" href="checklists.html">Checklists</a>
+        <a href="sobre.html">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <nav class="breadcrumb" aria-label="Navegação estrutural">
+          <a href="index.html">Início</a>
+          <span>/</span>
+          <span>Checklists</span>
+        </nav>
+
+        <p class="eyebrow">VERIFICAÇÃO RÁPIDA</p>
+
+        <h1>Troque confiança por evidência.</h1>
+
+        <p class="page-hero-description">
+          Use estes checklists antes de pedir código à IA, abrir um pull
+          request, publicar uma versão ou encerrar um debug.
+        </p>
+
+        <div class="page-meta">
+          <span class="meta-tag">Contexto</span>
+          <span class="meta-tag">Implementação</span>
+          <span class="meta-tag">Debug</span>
+          <span class="meta-tag">Segurança</span>
+          <span class="meta-tag">Entrega</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="guide-section">
+      <div class="container">
+        <div class="guide-introduction">
+          <p>
+            Os itens são salvos apenas neste navegador. Nenhuma informação de
+            progresso é enviada para um servidor.
+          </p>
+        </div>
+
+        <section class="phase-block">
+          <div class="phase-heading">
+            <span>01</span>
+            <h2>Contexto e especificação</h2>
+          </div>
+
+          <ul class="checklist">
+            <li class="checklist-item">
+              <input
+                id="context-01"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-01">
+                A raiz, a branch e a linha de base foram confirmadas.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-02"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-02">
+                O inventário distingue arquivos encontrados, lidos e executados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-03"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-03">
+                Fatos, inferências, hipóteses e perguntas estão separados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-04"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-04">
+                Usuários, dados, fronteiras, contratos e não objetivos estão explícitos.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-05"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-05">
+                Os requisitos são observáveis, numerados e rastreáveis.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-06"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-06">
+                O contexto enviado à IA é mínimo, sanitizado e delimitado.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-07"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-07">
+                Critérios cobrem sucesso, falha, limites, autorização e repetição.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="context-08"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="context-08">
+                Perguntas bloqueadoras têm proprietário, fonte esperada e consequência.
+              </label>
+            </li>
+          </ul>
+        </section>
+
+        <section class="phase-block">
+          <div class="phase-heading">
+            <span>02</span>
+            <h2>Implementação e revisão</h2>
+          </div>
+
+          <ul class="checklist">
+            <li class="checklist-item">
+              <input
+                id="implementation-01"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-01">
+                O plano foi revisado antes da implementação.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-02"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-02">
+                A mudança está em uma branch ou ambiente isolado.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-03"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-03">
+                Apenas os arquivos autorizados foram alterados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-04"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-04">
+                O patch é pequeno, coeso, explicável e reversível.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-05"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-05">
+                Foram lidos <code>git status</code>, <code>git diff</code> e
+                <code>git diff --staged</code>.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-06"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-06">
+                Não existem dependências, permissões, scripts ou configurações inesperadas.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-07"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-07">
+                Existem testes positivos, negativos e de fronteira.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-08"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-08">
+                Formatter, linter, testes, build e análise estática foram executados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="implementation-09"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="implementation-09">
+                A revisão avaliou lógica de negócio, autorização, erros, concorrência e operação.
+              </label>
+            </li>
+          </ul>
+        </section>
+
+        <section class="phase-block">
+          <div class="phase-heading">
+            <span>03</span>
+            <h2>Debug</h2>
+          </div>
+
+          <ul class="checklist">
+            <li class="checklist-item">
+              <input
+                id="debug-01"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-01">
+                O sintoma, o comportamento esperado, o escopo e a frequência estão documentados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-02"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-02">
+                Existe uma reprodução mínima e um oracle de teste.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-03"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-03">
+                Cada hipótese possui um teste discriminante.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-04"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-04">
+                As camadas foram isoladas sem alterações simultâneas desnecessárias.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-05"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-05">
+                Logs, métricas e traces possuem correlação e não expõem dados sensíveis.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-06"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-06">
+                Retry, timeout, cache e limpeza não estão mascarando a causa.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-07"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-07">
+                Existe um teste de regressão para o defeito corrigido.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="debug-08"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="debug-08">
+                A conclusão causal está baseada em evidência reproduzível.
+              </label>
+            </li>
+          </ul>
+        </section>
+
+        <section class="phase-block">
+          <div class="phase-heading">
+            <span>04</span>
+            <h2>Segurança e supply chain</h2>
+          </div>
+
+          <ul class="checklist">
+            <li class="checklist-item">
+              <input
+                id="security-01"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-01">
+                Ativos, fronteiras de confiança e ameaças estão registrados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-02"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-02">
+                As permissões são mínimas para aplicação, banco, CI, IA e ambientes.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-03"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-03">
+                Nenhum segredo aparece em código, prompt, log, imagem, artefato ou histórico.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-04"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-04">
+                Entradas são validadas no servidor com schema, allowlist e limites.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-05"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-05">
+                Consultas são parametrizadas e saídas são codificadas no contexto correto.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-06"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-06">
+                Dependências têm origem, licença, versão, lockfile e atualização controlada.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-07"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-07">
+                Pull requests, comentários, branches e artefatos são tratados como entrada não confiável.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="security-08"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="security-08">
+                Privacidade, retenção, acesso, descarte e logs foram avaliados.
+              </label>
+            </li>
+          </ul>
+        </section>
+
+        <section class="phase-block">
+          <div class="phase-heading">
+            <span>05</span>
+            <h2>Entrega e publicação</h2>
+          </div>
+
+          <ul class="checklist">
+            <li class="checklist-item">
+              <input
+                id="delivery-01"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-01">
+                O README permite instalar, configurar, testar, construir e executar.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="delivery-02"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-02">
+                Manifesto, lockfile, scripts e configuração de exemplo estão presentes.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="delivery-03"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-03">
+                Arquivos locais, caches, builds e segredos não estão versionados.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="delivery-04"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-04">
+                O CI executa build, validações e testes sem ocultar falhas.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="delivery-05"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-05">
+                O workflow possui permissões mínimas.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="delivery-06"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-06">
+                A publicação está vinculada ao commit e à branch correta.
+              </label>
+            </li>
+
+            <li class="checklist-item">
+              <input
+                id="delivery-07"
+                type="checkbox"
+                data-checklist
+              >
+
+              <label for="delivery-07">
+                O site foi testado em desktop, mobile, teclado e leitor de tela básico.
+              </label>
+            </li>
+          </ul>
+        </section>
+
+        <div class="callout success">
+          <strong>Critério final</strong>
+
+          <p>
+            A entrega está pronta quando outra pessoa consegue explicar o que
+            mudou, reproduzir a validação, identificar o risco, operar o
+            resultado e desfazer a decisão.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <a class="brand footer-brand" href="index.html">
+          <span class="brand-mark">VC</span>
+
+          <span class="brand-text">
+            <strong>Vibe Coding</strong>
+            <small>responsável</small>
+          </span>
+        </a>
+
+        <p>
+          Engenharia de software com inteligência artificial,
+          contexto e responsabilidade.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="guia.html">Trilha</a>
+        <a href="projeto-integrador.html">Projeto integrador</a>
+        <a href="checklists.html">Checklists</a>
+        <a href="sobre.html">Sobre</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>Conteúdo educacional sobre engenharia de software.</span>
+      <span>Vibe Coding responsável © 2026</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

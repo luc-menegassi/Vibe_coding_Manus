@@ -1,0 +1,88 @@
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Preparar site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Preparar diretório de publicação
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p _site
+
+          cp index.html _site/
+          cp guia.html _site/
+          cp projeto-integrador.html _site/
+          cp checklists.html _site/
+          cp sobre.html _site/
+
+          cp -R assets _site/
+          cp -R capitulos _site/
+
+          touch _site/.nojekyll
+
+      - name: Validar arquivos publicados
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -f _site/index.html
+          test -f _site/guia.html
+          test -f _site/projeto-integrador.html
+          test -f _site/checklists.html
+          test -f _site/sobre.html
+          test -f _site/assets/css/style.css
+          test -f _site/assets/js/app.js
+
+          chapter_count=$(find _site/capitulos -maxdepth 1 -type f -name "*.html" | wc -l)
+
+          if [ "$chapter_count" -ne 11 ]; then
+            echo "Quantidade inesperada de capítulos: $chapter_count"
+            exit 1
+          fi
+
+          echo "Arquivos de publicação validados."
+
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Fazer upload do artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    name: Publicar site
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

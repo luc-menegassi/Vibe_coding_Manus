@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Sobre o guia de Vibe Coding responsável, seus princípios, limites e referências."
+  >
+
+  <title>Sobre — Vibe Coding responsável</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-content">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">VC</span>
+
+        <span class="brand-text">
+          <strong>Vibe Coding</strong>
+          <small>responsável</small>
+        </span>
+      </a>
+
+      <button
+        class="mobile-menu-button"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="main-navigation" data-menu>
+        <a href="index.html">Início</a>
+        <a href="guia.html">Trilha</a>
+        <a href="projeto-integrador.html">Projeto integrador</a>
+        <a href="checklists.html">Checklists</a>
+        <a class="active" href="sobre.html">Sobre</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-content">
+        <nav class="breadcrumb" aria-label="Navegação estrutural">
+          <a href="index.html">Início</a>
+          <span>/</span>
+          <span>Sobre</span>
+        </nav>
+
+        <p class="eyebrow">A PROPOSTA</p>
+
+        <h1>IA na programação sem abandonar a engenharia.</h1>
+
+        <p class="page-hero-description">
+          Este guia trata a inteligência artificial como aceleradora de
+          exploração e implementação, não como substituta de responsabilidade
+          técnica.
+        </p>
+      </div>
+    </section>
+
+    <section class="chapter-layout">
+      <article class="chapter-content">
+        <h2>O que é Vibe Coding responsável?</h2>
+
+        <p>
+          Vibe Coding responsável é o uso deliberado de uma IA de programação
+          para reduzir o tempo entre uma intenção técnica e uma proposta de
+          mudança, dentro de um ciclo que preserva contexto, escopo, revisão,
+          testes, controle de versão, segurança e rastreabilidade.
+        </p>
+
+        <p>
+          A ferramenta pode gerar código, testes, documentação, comandos de
+          diagnóstico, hipóteses e rascunhos de workflows. Ainda assim, a
+          equipe continua responsável por decidir requisitos, arquitetura,
+          dependências, riscos, segurança, operação e publicação.
+        </p>
+
+        <div class="callout">
+          <strong>Princípio central</strong>
+
+          <p>
+            Velocidade de geração é uma propriedade da ferramenta.
+            Responsabilidade técnica permanece humana.
+          </p>
+        </div>
+
+        <h2>O que este guia pretende ensinar</h2>
+
+        <p>
+          O material organiza uma jornada completa para trabalhar com IA na
+          construção de software. O ponto de partida é o ambiente e o contexto
+          real do projeto. O ponto de chegada é uma entrega que pode ser
+          reproduzida, testada, revisada, publicada, operada e revertida.
+        </p>
+
+        <ul>
+          <li>
+            Preparar o ambiente e operar terminal e Git com segurança;
+          </li>
+
+          <li>
+            Explorar projetos sem inventar arquitetura ou dependências;
+          </li>
+
+          <li>
+            Transformar intenção em especificação verificável;
+          </li>
+
+          <li>
+            Planejar fatias pequenas e reversíveis;
+          </li>
+
+          <li>
+            Escolher linguagem, runtime e framework com critérios explícitos;
+          </li>
+
+          <li>
+            Calibrar a IA com contexto mínimo, escopo e critérios de aceite;
+          </li>
+
+          <li>
+            Implementar com patches pequenos, testes e revisão de diff;
+          </li>
+
+          <li>
+            Organizar o projeto e publicá-lo usando GitHub Actions;
+          </li>
+
+          <li>
+            Fazer debug por camadas e por evidências;
+          </li>
+
+          <li>
+            Projetar segurança, privacidade, supply chain e operação desde o início.
+          </li>
+        </ul>
+
+        <h2>O que a IA não deve decidir sozinha</h2>
+
+        <ul>
+          <li>Se um requisito está correto;</li>
+          <li>Se uma dependência é confiável;</li>
+          <li>Se uma permissão é necessária;</li>
+          <li>Se um log pode conter dados pessoais;</li>
+          <li>Se uma migração é segura;</li>
+          <li>Se uma vulnerabilidade é aceitável;</li>
+          <li>Se um deploy deve chegar à produção;</li>
+          <li>Se a cobertura de testes é suficiente;</li>
+          <li>Se uma arquitetura pode ser operada pela equipe.</li>
+        </ul>
+
+        <h2>Princípios editoriais</h2>
+
+        <div class="phase-card-list">
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">01</span>
+
+            <div>
+              <h3>Contexto antes do código</h3>
+              <p>
+                Antes de pedir implementação, confirme a raiz, o estado do
+                projeto, os contratos, os riscos e as lacunas de conhecimento.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">02</span>
+
+            <div>
+              <h3>Pequenas mudanças</h3>
+              <p>
+                Mudanças pequenas são mais fáceis de revisar, testar, entender,
+                depurar e reverter.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">03</span>
+
+            <div>
+              <h3>Evidência antes da confiança</h3>
+              <p>
+                Código que compila, CI verde ou uma explicação convincente da IA
+                são evidências parciais, não provas completas.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">04</span>
+
+            <div>
+              <h3>Segurança desde o desenho</h3>
+              <p>
+                Segredos, permissões, validação, dependências, privacidade e
+                supply chain fazem parte da arquitetura.
+              </p>
+            </div>
+          </article>
+
+          <article class="project-phase-card">
+            <span class="project-phase-card-number">05</span>
+
+            <div>
+              <h3>Responsabilidade humana explícita</h3>
+              <p>
+                A equipe deve registrar o que a IA gerou, o que foi verificado,
+                quais riscos permanecem e quem aprovou a entrega.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <h2>Para quem é este material?</h2>
+
+        <p>
+          O guia é destinado a pessoas desenvolvedoras, estudantes, líderes
+          técnicos, arquitetas, profissionais de DevOps, segurança, QA e
+          produto que utilizam IA na construção de software.
+        </p>
+
+        <p>
+          É adequado para equipes pequenas e projetos educacionais, mas seus
+          princípios também se aplicam a organizações maiores, especialmente
+          quando existem dados pessoais, automações privilegiadas, dependências
+          externas ou publicação contínua.
+        </p>
+
+        <h2>Limites do material</h2>
+
+        <p>
+          Este site é um guia educacional. Ele não substitui documentação
+          oficial, revisão especializada, análise jurídica, políticas internas,
+          testes de segurança ou decisões específicas de um ambiente de
+          produção.
+        </p>
+
+        <p>
+          Comandos, exemplos e workflows devem ser adaptados ao contexto do
+          projeto. Nenhum exemplo deve receber credenciais reais ou ser executado
+          sem que a pessoa compreenda seus efeitos.
+        </p>
+
+        <h2>Fontes e referências</h2>
+
+        <p>
+          O conteúdo foi estruturado a partir de documentação técnica oficial e
+          referências reconhecidas sobre Git, GitHub Actions, GitHub Pages,
+          OWASP, NIST, Docker, OpenAPI, observabilidade e desenvolvimento
+          seguro.
+        </p>
+
+        <ul>
+          <li>
+            <a
+              href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub Pages — Configuring a publishing source
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://docs.github.com/en/actions/reference/security/secure-use"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub Actions — Secure use reference
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://csrc.nist.gov/pubs/sp/800/218/final"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              NIST SP 800-218 — Secure Software Development Framework
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://owasp.org/www-project-application-security-verification-standard/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              OWASP Application Security Verification Standard
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="https://git-scm.com/book/en/v2"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Pro Git Book
+            </a>
+          </li>
+        </ul>
+
+        <div class="callout success">
+          <strong>Pergunta final</strong>
+
+          <p>
+            Outra pessoa consegue explicar o que mudou, reproduzir a validação,
+            identificar o risco, operar a entrega e desfazer a decisão?
+          </p>
+        </div>
+      </article>
+
+      <aside class="chapter-sidebar">
+        <div class="chapter-sidebar-title">Nesta página</div>
+
+        <a href="#proposta">A proposta</a>
+        <a href="#principios">Princípios</a>
+        <a href="#fontes">Fontes</a>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div>
+        <a class="brand footer-brand" href="index.html">
+          <span class="brand-mark">VC</span>
+
+          <span class="brand-text">
+            <strong>Vibe Coding</strong>
+            <small>responsável</small>
+          </span>
+        </a>
+
+        <p>
+          Engenharia de software com inteligência artificial,
+          contexto e responsabilidade.
+        </p>
+      </div>
+
+      <div class="footer-links">
+        <a href="guia.html">Trilha</a>
+        <a href="projeto-integrador.html">Projeto integrador</a>
+        <a href="checklists.html">Checklists</a>
+        <a href="sobre.html">Sobre</a>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>Conteúdo educacional sobre engenharia de software.</span>
+      <span>Vibe Coding responsável © 2026</span>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
