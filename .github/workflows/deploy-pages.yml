@@ -9,8 +9,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pages
@@ -18,12 +16,24 @@ concurrency:
 
 jobs:
   build:
-    name: Preparar site
+    name: Construir site
     runs-on: ubuntu-latest
 
     steps:
       - name: Baixar o repositório
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar páginas HTML dos capítulos
+        run: npm run build:chapters
 
       - name: Preparar diretório de publicação
         shell: bash
@@ -39,11 +49,12 @@ jobs:
           cp sobre.html _site/
 
           cp -R assets _site/
-          cp -R capitulos _site/
 
           touch _site/.nojekyll
 
-      - name: Validar arquivos publicados
+          echo "Arquivos estáticos copiados para _site."
+
+      - name: Validar conteúdo de publicação
         shell: bash
         run: |
           set -euo pipefail
@@ -56,19 +67,30 @@ jobs:
           test -f _site/assets/css/style.css
           test -f _site/assets/js/app.js
 
-          chapter_count=$(find _site/capitulos -maxdepth 1 -type f -name "*.html" | wc -l)
+          test -d _site/capitulos
+
+          chapter_count=$(find _site/capitulos \
+            -maxdepth 1 \
+            -type f \
+            -name "*.html" \
+            | wc -l)
+
+          echo "Páginas de capítulo prontas: $chapter_count"
 
           if [ "$chapter_count" -ne 11 ]; then
-            echo "Quantidade inesperada de capítulos: $chapter_count"
+            echo "Erro: eram esperadas exatamente 11 páginas de capítulo."
             exit 1
           fi
 
-          echo "Arquivos de publicação validados."
+          test -s _site/capitulos/01-ambiente-terminal.html
+          test -s _site/capitulos/11-seguranca-arquitetura.html
+
+          echo "Conteúdo de publicação validado."
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Fazer upload do artefato
+      - name: Fazer upload do artefato do Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
@@ -77,6 +99,10 @@ jobs:
     name: Publicar site
     needs: build
     runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
 
     environment:
       name: github-pages
