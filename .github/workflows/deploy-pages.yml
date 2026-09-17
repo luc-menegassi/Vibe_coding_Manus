@@ -27,10 +27,29 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: 24
-          cache: npm
 
       - name: Instalar dependências
-        run: npm ci
+        run: npm install --no-audit --no-fund
+
+      - name: Verificar capítulos Markdown
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -d capitulos
+
+          chapter_count=$(find capitulos \
+            -maxdepth 1 \
+            -type f \
+            -name "*.md" \
+            | wc -l)
+
+          echo "Capítulos Markdown encontrados: $chapter_count"
+
+          if [ "$chapter_count" -ne 11 ]; then
+            echo "Erro: eram esperados exatamente 11 capítulos Markdown."
+            exit 1
+          fi
 
       - name: Gerar páginas HTML dos capítulos
         run: npm run build:chapters
@@ -75,10 +94,10 @@ jobs:
             -name "*.html" \
             | wc -l)
 
-          echo "Páginas de capítulo prontas: $chapter_count"
+          echo "Páginas de capítulo geradas: $chapter_count"
 
           if [ "$chapter_count" -ne 11 ]; then
-            echo "Erro: eram esperadas exatamente 11 páginas de capítulo."
+            echo "Erro: eram esperadas exatamente 11 páginas HTML."
             exit 1
           fi
 
