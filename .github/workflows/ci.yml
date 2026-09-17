@@ -14,14 +14,23 @@ permissions:
 
 jobs:
   validate:
-    name: Validar arquivos estáticos
+    name: Validar e construir site
     runs-on: ubuntu-latest
 
     steps:
       - name: Baixar o repositório
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Verificar arquivos principais
+      - name: Configurar Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Validar arquivos principais
         shell: bash
         run: |
           set -euo pipefail
@@ -33,64 +42,113 @@ jobs:
           test -f sobre.html
           test -f assets/css/style.css
           test -f assets/js/app.js
+          test -f package.json
+          test -f package-lock.json
+          test -f scripts/build-chapters.mjs
 
           echo "Arquivos principais encontrados."
 
-      - name: Verificar capítulos
+      - name: Validar capítulos Markdown
         shell: bash
         run: |
           set -euo pipefail
 
-          chapters=(
-            "01-ambiente-terminal.html"
-            "02-linguagem.html"
-            "03-entrega-organizacao.html"
-            "04-debug-camadas.html"
-            "05-calibrar-ia.html"
-            "06-github-actions.html"
-            "07-contexto-exploracao.html"
-            "08-especificacao.html"
-            "09-planejamento.html"
-            "10-implementacao-ia.html"
-            "11-seguranca-arquitetura.html"
-           )
+          test -d capitulos
 
-          for chapter in "${chapters[@]}"; do
-            test -f "capitulos/$chapter"
-          done
+          chapter_count=$(find capitulos \
+            -maxdepth 1 \
+            -type f \
+            -name "*.md" \
+            | wc -l)
 
-          echo "Todos os capítulos foram encontrados."
+          echo "Capítulos Markdown encontrados: $chapter_count"
+
+          if [ "$chapter_count" -ne 11 ]; then
+            echo "Erro: eram esperados exatamente 11 capítulos Markdown."
+            exit 1
+          fi
+
+      - name: Gerar páginas HTML dos capítulos
+        run: npm run build:chapters
+
+      - name: Validar capítulos HTML gerados
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -d _site/capitulos
+
+          generated_count=$(find _site/capitulos \
+            -maxdepth 1 \
+            -type f \
+            -name "*.html" \
+            | wc -l)
+
+          echo "Capítulos HTML gerados: $generated_count"
+
+          if [ "$generated_count" -ne 11 ]; then
+            echo "Erro: eram esperadas exatamente 11 páginas HTML."
+            exit 1
+          fi
 
       - name: Verificar referências de assets
         shell: bash
         run: |
           set -euo pipefail
 
-          for file in *.html capitulos/*.html; do
-            grep -q 'assets/css/style.css' "$file"
-            grep -q 'assets/js/app.js' "$file"
+          for file in \
+            index.html \
+            guia.html \
+            projeto-integrador.html \
+            checklists.html \
+            sobre.html \
+            _site/capitulos/*.html
+          do
+            if [ ! -f "$file" ]; then
+              echo "Arquivo não encontrado: $file"
+              exit 1
+            fi
+
+            grep -q "style.css" "$file"
+            grep -q "app.js" "$file"
           done
 
           echo "Referências de CSS e JavaScript encontradas."
 
-      - name: Verificar ausência de arquivos sensíveis
+      - name: Verificar arquivos sensíveis
         shell: bash
         run: |
           set -euo pipefail
 
-          if find . \
-            -type f \
-            \( \
-              -name ".env" \
-              -o -name "*.pem" \
-              -o -name "*.key" \
-              -o -name "*.p12" \
-              -o -name "*.secret" \
-            \) \
-            -not -path "./.git/*" \
-            | grep -q .; then
-            echo "Arquivo potencialmente sensível encontrado."
+          sensitive_files=$(
+            find . \
+              -type f \
+              \( \
+                -name ".env" \
+                -o -name "*.pem" \
+                -o -name "*.key" \
+                -o -name "*.p12" \
+                -o -name "*.secret" \
+              \) \
+              -not -path "./.git/*" \
+              -not -path "./node_modules/*" \
+              -print
+          )
+
+          if [ -n "$sensitive_files" ]; then
+            echo "Arquivos potencialmente sensíveis encontrados:"
+            echo "$sensitive_files"
             exit 1
           fi
 
           echo "Nenhum arquivo sensível conhecido foi encontrado."
+
+      - name: Verificar status do build
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test -s _site/capitulos/01-ambiente-terminal.html
+          test -s _site/capitulos/11-seguranca-arquitetura.html
+
+          echo "Build do site validado com sucesso."
