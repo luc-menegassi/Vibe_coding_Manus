@@ -424,9 +424,7 @@ for (const [index, navigationItem] of markdownFiles.entries()) {
     const parsedContent = await marked.parse(chapterMarkdown);
     const contentWithIds = addHeadingIds(parsedContent);
 
-    const outputFileName = markdownFile
-      .replace(/\.md$/i, ".html")
-      .toLowerCase();
+    const outputFileName = navigationItem.file;
 
     const outputPath = path.join(
       outputDirectory,
