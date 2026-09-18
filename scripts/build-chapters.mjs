@@ -85,12 +85,21 @@ marked.setOptions({
 });
 
 function escapeHtml(value) {
-  return value
+  return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function slugify(value) {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 }
 
 function getChapterTitle(markdown, fallbackTitle) {
@@ -101,13 +110,14 @@ function getChapterTitle(markdown, fallbackTitle) {
   }
 
   return titleMatch[1]
-    .replaceAll("—", "—")
-    .replaceAll(/\s+/g, " ")
+    .replace(/\s+/g, " ")
     .trim();
 }
 
 function removeFirstHeading(markdown) {
-  return markdown.replace(/^#\s+.+\r?\n?/m, "").trim();
+  return markdown
+    .replace(/^#\s+.+\r?\n?/m, "")
+    .trim();
 }
 
 function extractHeadings(markdown) {
@@ -118,34 +128,23 @@ function extractHeadings(markdown) {
 
   while ((match = headingPattern.exec(markdown)) !== null) {
     const headingText = match[1]
-      .replaceAll(/[`*_]/g, "")
+      .replace(/[`*_]/g, "")
       .trim();
-
-    const headingId = slugify(headingText);
 
     headings.push({
       text: headingText,
-      id: headingId
+      id: slugify(headingText)
     });
   }
 
   return headings;
 }
 
-function slugify(value) {
-  return value
-    .normalize("NFD")
-    .replaceAll(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, "-")
-    .replaceAll(/(^-|-$)/g, "");
-}
-
 function addHeadingIds(html) {
   return html.replace(
     /<h2>(.*?)<\/h2>/g,
     (fullMatch, headingContent) => {
-      const plainText = headingContent.replaceAll(/<[^>]+>/g, "");
+      const plainText = headingContent.replace(/<[^>]+>/g, "");
       const id = slugify(plainText);
 
       return `<h2 id="${id}">${headingContent}</h2>`;
@@ -370,11 +369,11 @@ function createPage({
 `;
 }
 
-async function ensureDirectory(directory) {
+async function ensureDirectory(directory ) {
   await fs.mkdir(directory, { recursive: true });
 }
 
-async function getMarkdownFiles() {
+async function getChapterFiles() {
   const availableFiles = await fs.readdir(chaptersDirectory);
 
   const missingFiles = navigationItems
@@ -383,22 +382,18 @@ async function getMarkdownFiles() {
 
   if (missingFiles.length > 0) {
     throw new Error(
-      `Capítulos Markdown não encontrados:\n- ${missingFiles.join("\n- ")}`
+      [
+        "Os seguintes capítulos não foram encontrados:",
+        ...missingFiles.map((fileName) => `- ${fileName}`)
+      ].join("\n")
     );
   }
 
   return navigationItems;
 }
 
-
 async function buildChapters() {
-  const markdownFiles = await getMarkdownFiles();
-
-  if (markdownFiles.length === 0) {
-    throw new Error(
-      `Nenhum arquivo Markdown foi encontrado em: ${chaptersDirectory}`
-    );
-  }
+  const chapters = await getChapterFiles();
 
   await fs.rm(outputDirectory, {
     recursive: true,
@@ -407,24 +402,34 @@ async function buildChapters() {
 
   await ensureDirectory(outputDirectory);
 
-for (const [index, navigationItem] of markdownFiles.entries()) {
-  const markdownFile = navigationItem.source;
-  const markdownPath = path.join(chaptersDirectory, markdownFile);
-  const markdown = await fs.readFile(markdownPath, "utf8");
+  for (const [index, chapter] of chapters.entries()) {
+    const markdownPath = path.join(
+      chaptersDirectory,
+      chapter.source
+    );
 
+    const markdown = await fs.readFile(
+      markdownPath,
+      "utf8"
+    );
 
     const title = getChapterTitle(
       markdown,
-      navigationItem.title
+      chapter.title
     );
 
     const chapterMarkdown = removeFirstHeading(markdown);
     const headings = extractHeadings(chapterMarkdown);
 
-    const parsedContent = await marked.parse(chapterMarkdown);
-    const contentWithIds = addHeadingIds(parsedContent);
+    const parsedContent = await marked.parse(
+      chapterMarkdown
+    );
 
-    const outputFileName = navigationItem.file;
+    const contentWithIds = addHeadingIds(
+      parsedContent
+    );
+
+    const outputFileName = chapter.file;
 
     const outputPath = path.join(
       outputDirectory,
@@ -433,26 +438,30 @@ for (const [index, navigationItem] of markdownFiles.entries()) {
 
     const page = createPage({
       title,
-      chapterNumber: navigationItem.number,
+      chapterNumber: chapter.number,
       content: contentWithIds,
       headings,
       currentIndex: index
     });
 
-    await fs.writeFile(outputPath, page, "utf8");
+    await fs.writeFile(
+      outputPath,
+      page,
+      "utf8"
+    );
 
     console.log(
-      `Gerado: capitulos/${markdownFile} -> _site/capitulos/${outputFileName}`
+      `Gerado: ${chapter.source} -> _site/capitulos/${outputFileName}`
     );
   }
 
   console.log(
-    `\nBuild concluído: ${markdownFiles.length} capítulo(s) gerado(s).`
+    `Build concluído: ${chapters.length} capítulo(s) gerado(s).`
   );
 }
 
 buildChapters().catch((error) => {
-  console.error("\nFalha ao gerar os capítulos:");
+  console.error("Falha ao gerar os capítulos:");
   console.error(error.message);
   process.exitCode = 1;
 });
