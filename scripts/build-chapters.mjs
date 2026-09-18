@@ -12,56 +12,67 @@ const outputDirectory = path.join(projectRoot, "_site", "capitulos");
 
 const navigationItems = [
   {
+    source: "Capítulo 1 — Ambiente e terminal.md",
     file: "01-ambiente-terminal.html",
     number: "01",
     title: "Ambiente e terminal"
   },
   {
+    source: "Capítulo 2 — Planejamento e decisão da linguagem.md",
     file: "02-linguagem.html",
     number: "02",
     title: "Planejamento e decisão da linguagem"
   },
   {
+    source: "Capítulo 3 — Entrega e organização do projeto.md",
     file: "03-entrega-organizacao.html",
     number: "03",
     title: "Entrega e organização do projeto"
   },
   {
+    source: "Capítulo 4 — Debug em camadas.md",
     file: "04-debug-camadas.html",
     number: "04",
     title: "Debug em camadas"
   },
   {
+    source: "Capítulo 5 — Como calibrar a IA.md",
     file: "05-calibrar-ia.html",
     number: "05",
     title: "Como calibrar a IA"
   },
   {
+    source: "Capítulo 6 — Construção e publicação no GitHub com Actions.md",
     file: "06-github-actions.html",
     number: "06",
     title: "Construção e publicação no GitHub com Actions"
   },
   {
+    source: "Capítulo 7 — Contexto e exploração do projeto.md",
     file: "07-contexto-exploracao.html",
     number: "07",
     title: "Contexto e exploração do projeto"
   },
   {
+    source: "Capítulo 8 — Especificação.md",
     file: "08-especificacao.html",
     number: "08",
     title: "Especificação"
   },
   {
+    source: "Capítulo 9 — Planejamento.md",
     file: "09-planejamento.html",
     number: "09",
     title: "Planejamento"
   },
   {
+    source: "Capítulo 10 — Implementação com a IA.md",
     file: "10-implementacao-ia.html",
     number: "10",
     title: "Implementação com a IA"
   },
   {
+    source: "Capítulo 11 — Engenharia e arquitetura de segurança do projeto.md",
     file: "11-seguranca-arquitetura.html",
     number: "11",
     title: "Engenharia e arquitetura de segurança"
@@ -364,19 +375,21 @@ async function ensureDirectory(directory) {
 }
 
 async function getMarkdownFiles() {
-  const entries = await fs.readdir(chaptersDirectory, {
-    withFileTypes: true
-  });
+  const availableFiles = await fs.readdir(chaptersDirectory);
 
-  return entries
-    .filter(
-      (entry) =>
-        entry.isFile() &&
-        entry.name.toLowerCase().endsWith(".md")
-    )
-    .map((entry) => entry.name)
-    .sort((first, second) => first.localeCompare(second));
+  const missingFiles = navigationItems
+    .map((chapter) => chapter.source)
+    .filter((fileName) => !availableFiles.includes(fileName));
+
+  if (missingFiles.length > 0) {
+    throw new Error(
+      `Capítulos Markdown não encontrados:\n- ${missingFiles.join("\n- ")}`
+    );
+  }
+
+  return navigationItems;
 }
+
 
 async function buildChapters() {
   const markdownFiles = await getMarkdownFiles();
@@ -394,15 +407,11 @@ async function buildChapters() {
 
   await ensureDirectory(outputDirectory);
 
-  for (const [index, markdownFile] of markdownFiles.entries()) {
-    const markdownPath = path.join(chaptersDirectory, markdownFile);
-    const markdown = await fs.readFile(markdownPath, "utf8");
+for (const [index, navigationItem] of markdownFiles.entries()) {
+  const markdownFile = navigationItem.source;
+  const markdownPath = path.join(chaptersDirectory, markdownFile);
+  const markdown = await fs.readFile(markdownPath, "utf8");
 
-    const navigationItem =
-      navigationItems[index] ?? {
-        number: String(index + 1).padStart(2, "0"),
-        title: markdownFile.replace(/\.md$/i, "")
-      };
 
     const title = getChapterTitle(
       markdown,

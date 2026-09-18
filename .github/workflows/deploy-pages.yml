@@ -38,18 +38,29 @@ jobs:
 
           test -d capitulos
 
-          chapter_count=$(find capitulos \
-            -maxdepth 1 \
-            -type f \
-            -name "*.md" \
-            | wc -l)
+          chapters=(
+            "Capítulo 1 — Ambiente e terminal.md"
+            "Capítulo 2 — Planejamento e decisão da linguagem.md"
+            "Capítulo 3 — Entrega e organização do projeto.md"
+            "Capítulo 4 — Debug em camadas.md"
+            "Capítulo 5 — Como calibrar a IA.md"
+            "Capítulo 6 — Construção e publicação no GitHub com Actions.md"
+            "Capítulo 7 — Contexto e exploração do projeto.md"
+            "Capítulo 8 — Especificação.md"
+            "Capítulo 9 — Planejamento.md"
+            "Capítulo 10 — Implementação com a IA.md"
+            "Capítulo 11 — Engenharia e arquitetura de segurança do projeto.md"
+          )
 
-          echo "Capítulos Markdown encontrados: $chapter_count"
+          for chapter in "${chapters[@]}"; do
+            if [ ! -f "capitulos/$chapter" ]; then
+              echo "Capítulo não encontrado: $chapter"
+              exit 1
+            fi
+          done
 
-          if [ "$chapter_count" -ne 11 ]; then
-            echo "Erro: eram esperados exatamente 11 capítulos Markdown."
-            exit 1
-          fi
+          echo "Os 11 capítulos oficiais foram encontrados."
+
 
       - name: Gerar páginas HTML dos capítulos
         run: npm run build:chapters
