@@ -10,71 +10,60 @@ const projectRoot = path.resolve(currentDirectory, "..");
 const chaptersDirectory = path.join(projectRoot, "capitulos");
 const outputDirectory = path.join(projectRoot, "_site", "capitulos");
 
-const navigationItems = [
+const chapterDefinitions = [
   {
-    source: "Capítulo 1 — Ambiente e terminal.md",
+    number: 1,
     file: "01-ambiente-terminal.html",
-    number: "01",
     title: "Ambiente e terminal"
   },
   {
-    source: "Capítulo 2 — Planejamento e decisão da linguagem.md",
+    number: 2,
     file: "02-linguagem.html",
-    number: "02",
     title: "Planejamento e decisão da linguagem"
   },
   {
-    source: "Capítulo 3 — Entrega e organização do projeto.md",
+    number: 3,
     file: "03-entrega-organizacao.html",
-    number: "03",
     title: "Entrega e organização do projeto"
   },
   {
-    source: "Capítulo 4 — Debug em camadas.md",
+    number: 4,
     file: "04-debug-camadas.html",
-    number: "04",
     title: "Debug em camadas"
   },
   {
-    source: "Capítulo 5 — Como calibrar a IA.md",
+    number: 5,
     file: "05-calibrar-ia.html",
-    number: "05",
     title: "Como calibrar a IA"
   },
   {
-    source: "Capítulo 6 — Construção e publicação no GitHub com Actions.md",
+    number: 6,
     file: "06-github-actions.html",
-    number: "06",
     title: "Construção e publicação no GitHub com Actions"
   },
   {
-    source: "Capítulo 7 — Contexto e exploração do projeto.md",
+    number: 7,
     file: "07-contexto-exploracao.html",
-    number: "07",
     title: "Contexto e exploração do projeto"
   },
   {
-    source: "Capítulo 8 — Especificação.md",
+    number: 8,
     file: "08-especificacao.html",
-    number: "08",
     title: "Especificação"
   },
   {
-    source: "Capítulo 9 — Planejamento.md",
+    number: 9,
     file: "09-planejamento.html",
-    number: "09",
     title: "Planejamento"
   },
   {
-    source: "Capítulo 10 — Implementação com a IA.md",
+    number: 10,
     file: "10-implementacao-ia.html",
-    number: "10",
     title: "Implementação com a IA"
   },
   {
-    source: "Capítulo 11 — Engenharia e arquitetura de segurança do projeto.md",
+    number: 11,
     file: "11-seguranca-arquitetura.html",
-    number: "11",
     title: "Engenharia e arquitetura de segurança"
   }
 ];
@@ -102,14 +91,14 @@ function slugify(value) {
     .replace(/(^-|-$)/g, "");
 }
 
-function getChapterTitle(markdown, fallbackTitle) {
-  const titleMatch = markdown.match(/^#\s+(.+)$/m);
+function getTitle(markdown, fallbackTitle) {
+  const match = markdown.match(/^#\s+(.+)$/m);
 
-  if (!titleMatch) {
+  if (!match) {
     return fallbackTitle;
   }
 
-  return titleMatch[1]
+  return match[1]
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -122,18 +111,18 @@ function removeFirstHeading(markdown) {
 
 function extractHeadings(markdown) {
   const headings = [];
-  const headingPattern = /^##\s+(.+)$/gm;
+  const pattern = /^##\s+(.+)$/gm;
 
   let match;
 
-  while ((match = headingPattern.exec(markdown)) !== null) {
-    const headingText = match[1]
+  while ((match = pattern.exec(markdown)) !== null) {
+    const text = match[1]
       .replace(/[`*_]/g, "")
       .trim();
 
     headings.push({
-      text: headingText,
-      id: slugify(headingText)
+      text,
+      id: slugify(text)
     });
   }
 
@@ -185,14 +174,14 @@ function createBreadcrumb(title) {
 }
 
 function createChapterNavigation(currentIndex) {
-  const previousChapter = navigationItems[currentIndex - 1];
-  const nextChapter = navigationItems[currentIndex + 1];
+  const previous = chapterDefinitions[currentIndex - 1];
+  const next = chapterDefinitions[currentIndex + 1];
 
-  const previousLink = previousChapter
+  const previousLink = previous
     ? `
-      <a href="./${previousChapter.file}">
+      <a href="./${previous.file}">
         <small>← Anterior</small>
-        <strong>${escapeHtml(previousChapter.title)}</strong>
+        <strong>${escapeHtml(previous.title)}</strong>
       </a>
     `
     : `
@@ -202,11 +191,11 @@ function createChapterNavigation(currentIndex) {
       </a>
     `;
 
-  const nextLink = nextChapter
+  const nextLink = next
     ? `
-      <a href="./${nextChapter.file}">
+      <a href="./${next.file}">
         <small>Próximo →</small>
-        <strong>${escapeHtml(nextChapter.title)}</strong>
+        <strong>${escapeHtml(next.title)}</strong>
       </a>
     `
     : `
@@ -226,25 +215,18 @@ function createChapterNavigation(currentIndex) {
 
 function createPage({
   title,
-  chapterNumber,
+  number,
   content,
   headings,
   currentIndex
 }) {
   const escapedTitle = escapeHtml(title);
-  const sidebar = createSidebar(headings);
-  const breadcrumb = createBreadcrumb(title);
-  const chapterNavigation = createChapterNavigation(currentIndex);
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta
     name="description"
@@ -301,9 +283,9 @@ function createPage({
   <main>
     <section class="page-hero">
       <div class="container page-hero-content">
-        ${breadcrumb}
+        ${createBreadcrumb(title )}
 
-        <p class="eyebrow">CAPÍTULO ${chapterNumber}</p>
+        <p class="eyebrow">CAPÍTULO ${number}</p>
 
         <h1>${escapedTitle}</h1>
 
@@ -313,7 +295,7 @@ function createPage({
         </p>
 
         <div class="page-meta">
-          <span class="meta-tag">Capítulo ${chapterNumber}</span>
+          <span class="meta-tag">Capítulo ${number}</span>
           <span class="meta-tag">Vibe Coding</span>
           <span class="meta-tag">Engenharia de software</span>
         </div>
@@ -324,10 +306,10 @@ function createPage({
       <article class="chapter-content">
         ${content}
 
-        ${chapterNavigation}
+        ${createChapterNavigation(currentIndex)}
       </article>
 
-      ${sidebar}
+      ${createSidebar(headings)}
     </section>
   </main>
 
@@ -369,38 +351,62 @@ function createPage({
 `;
 }
 
-async function ensureDirectory(directory ) {
-  await fs.mkdir(directory, { recursive: true });
-}
+function getChapterNumber(fileName) {
+  const match = fileName.match(/^Capítulo\s+(\d+)/i);
 
-async function getChapterFiles() {
-  const availableFiles = await fs.readdir(chaptersDirectory);
-
-  const missingFiles = navigationItems
-    .map((chapter) => chapter.source)
-    .filter((fileName) => !availableFiles.includes(fileName));
-
-  if (missingFiles.length > 0) {
-    throw new Error(
-      [
-        "Os seguintes capítulos não foram encontrados:",
-        ...missingFiles.map((fileName) => `- ${fileName}`)
-      ].join("\n")
-    );
+  if (!match) {
+    return null;
   }
 
-  return navigationItems;
+  return Number(match[1]);
+}
+
+async function findChapterFiles() {
+  const entries = await fs.readdir(chaptersDirectory, {
+    withFileTypes: true
+  });
+
+  const markdownFiles = entries
+    .filter(
+      (entry) =>
+        entry.isFile() &&
+        entry.name.toLowerCase().endsWith(".md")
+    )
+    .map((entry) => entry.name);
+
+  const chapters = [];
+
+  for (const definition of chapterDefinitions) {
+    const source = markdownFiles.find(
+      (fileName) => getChapterNumber(fileName) === definition.number
+    );
+
+    if (!source) {
+      throw new Error(
+        `Não foi encontrado um arquivo Markdown para o capítulo ${definition.number}.`
+      );
+    }
+
+    chapters.push({
+      ...definition,
+      source
+    });
+  }
+
+  return chapters;
 }
 
 async function buildChapters() {
-  const chapters = await getChapterFiles();
+  const chapters = await findChapterFiles();
 
   await fs.rm(outputDirectory, {
     recursive: true,
     force: true
   });
 
-  await ensureDirectory(outputDirectory);
+  await fs.mkdir(outputDirectory, {
+    recursive: true
+  });
 
   for (const [index, chapter] of chapters.entries()) {
     const markdownPath = path.join(
@@ -413,32 +419,25 @@ async function buildChapters() {
       "utf8"
     );
 
-    const title = getChapterTitle(
+    const title = getTitle(
       markdown,
       chapter.title
     );
 
-    const chapterMarkdown = removeFirstHeading(markdown);
-    const headings = extractHeadings(chapterMarkdown);
+    const bodyMarkdown = removeFirstHeading(markdown);
+    const headings = extractHeadings(bodyMarkdown);
 
-    const parsedContent = await marked.parse(
-      chapterMarkdown
-    );
-
-    const contentWithIds = addHeadingIds(
-      parsedContent
-    );
-
-    const outputFileName = chapter.file;
+    const parsedContent = await marked.parse(bodyMarkdown);
+    const contentWithIds = addHeadingIds(parsedContent);
 
     const outputPath = path.join(
       outputDirectory,
-      outputFileName
+      chapter.file
     );
 
     const page = createPage({
       title,
-      chapterNumber: chapter.number,
+      number: String(chapter.number).padStart(2, "0"),
       content: contentWithIds,
       headings,
       currentIndex: index
@@ -451,7 +450,7 @@ async function buildChapters() {
     );
 
     console.log(
-      `Gerado: ${chapter.source} -> _site/capitulos/${outputFileName}`
+      `Gerado: ${chapter.source} -> _site/capitulos/${chapter.file}`
     );
   }
 

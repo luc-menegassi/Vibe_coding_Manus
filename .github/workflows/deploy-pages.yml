@@ -31,37 +31,6 @@ jobs:
       - name: Instalar dependências
         run: npm install --no-audit --no-fund
 
-      - name: Verificar capítulos Markdown
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          test -d capitulos
-
-          chapters=(
-            "Capítulo 1 — Ambiente e terminal.md"
-            "Capítulo 2 — Planejamento e decisão da linguagem.md"
-            "Capítulo 3 — Entrega e organização do projeto.md"
-            "Capítulo 4 — Debug em camadas.md"
-            "Capítulo 5 — Como calibrar a IA.md"
-            "Capítulo 6 — Construção e publicação no GitHub com Actions.md"
-            "Capítulo 7 — Contexto e exploração do projeto.md"
-            "Capítulo 8 — Especificação.md"
-            "Capítulo 9 — Planejamento.md"
-            "Capítulo 10 — Implementação com a IA.md"
-            "Capítulo 11 — Engenharia e arquitetura de segurança do projeto.md"
-          )
-
-          for chapter in "${chapters[@]}"; do
-            if [ ! -f "capitulos/$chapter" ]; then
-              echo "Capítulo não encontrado: $chapter"
-              exit 1
-            fi
-          done
-
-          echo "Os 11 capítulos oficiais foram encontrados."
-
-
       - name: Gerar páginas HTML dos capítulos
         run: npm run build:chapters
 
@@ -82,8 +51,6 @@ jobs:
 
           touch _site/.nojekyll
 
-          echo "Arquivos estáticos copiados para _site."
-
       - name: Validar conteúdo de publicação
         shell: bash
         run: |
@@ -97,25 +64,19 @@ jobs:
           test -f _site/assets/css/style.css
           test -f _site/assets/js/app.js
 
-          test -d _site/capitulos
+          test -f _site/capitulos/01-ambiente-terminal.html
+          test -f _site/capitulos/02-linguagem.html
+          test -f _site/capitulos/03-entrega-organizacao.html
+          test -f _site/capitulos/04-debug-camadas.html
+          test -f _site/capitulos/05-calibrar-ia.html
+          test -f _site/capitulos/06-github-actions.html
+          test -f _site/capitulos/07-contexto-exploracao.html
+          test -f _site/capitulos/08-especificacao.html
+          test -f _site/capitulos/09-planejamento.html
+          test -f _site/capitulos/10-implementacao-ia.html
+          test -f _site/capitulos/11-seguranca-arquitetura.html
 
-          chapter_count=$(find _site/capitulos \
-            -maxdepth 1 \
-            -type f \
-            -name "*.html" \
-            | wc -l)
-
-          echo "Páginas de capítulo geradas: $chapter_count"
-
-          if [ "$chapter_count" -ne 11 ]; then
-            echo "Erro: eram esperadas exatamente 11 páginas HTML."
-            exit 1
-          fi
-
-          test -s _site/capitulos/01-ambiente-terminal.html
-          test -s _site/capitulos/11-seguranca-arquitetura.html
-
-          echo "Conteúdo de publicação validado."
+          echo "As 11 páginas HTML foram geradas corretamente."
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
