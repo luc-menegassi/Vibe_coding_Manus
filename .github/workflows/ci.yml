@@ -54,15 +54,15 @@ jobs:
           test -d capitulos
 
           chapters=(
-            "Capítulo 1 — Ambiente e terminal.md"
-            "Capítulo 2 — Planejamento e decisão da linguagem.md"
-            "Capítulo 3 — Entrega e organização do projeto.md"
-            "Capítulo 4 — Debug em camadas.md"
-            "Capítulo 5 — Como calibrar a IA.md"
-            "Capítulo 6 — Construção e publicação no GitHub com Actions.md"
-            "Capítulo 7 — Contexto e exploração do projeto.md"
-            "Capítulo 8 — Especificação.md"
-            "Capítulo 9 — Planejamento.md"
+            "Capítulo 01 — Ambiente e terminal.md"
+            "Capítulo 02 — Planejamento e decisão da linguagem.md"
+            "Capítulo 03 — Entrega e organização do projeto.md"
+            "Capítulo 04 — Debug em camadas.md"
+            "Capítulo 05 — Como calibrar a IA.md"
+            "Capítulo 06 — Construção e publicação no GitHub com Actions.md"
+            "Capítulo 07 — Contexto e exploração do projeto.md"
+            "Capítulo 08 — Especificação.md"
+            "Capítulo 09 — Planejamento.md"
             "Capítulo 10 — Implementação com a IA.md"
             "Capítulo 11 — Engenharia e arquitetura de segurança do projeto.md"
           )
